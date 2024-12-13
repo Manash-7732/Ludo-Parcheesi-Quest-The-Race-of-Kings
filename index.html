@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parcheesi Quest: The Race of Kings</title>    <!--  Indian name for LUDO -->
+ 
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      #main {
+        margin-top: 2%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-content: center;
+        align-items: center;
+      }
+
+      #board {
+        border: 5px solid black;
+        width: 650px;
+        height: 650px;
+        flex-direction: column;
+        border-radius: 5px;
+        padding: 1px;
+      }
+
+      #row1 {
+        display: flex;
+        width: 100%;
+        height: 40%;
+      }
+
+      #row2 {
+        display: flex;
+        width: 100%;
+        height: 20%;
+      }
+
+      #row3 {
+        display: flex;
+        width: 100%;
+        height: 40%;
+      }
+
+      #green {
+        width: 40%;
+        background-color: green;
+        padding: 20px;
+      }
+
+      #yellow {
+        width: 40%;
+        background-color: yellow;
+        padding: 20px;
+      }
+
+      #red {
+        width: 40%;
+        background-color: red;
+        padding: 20px;
+      }
+
+      #blue {
+        width: 40%;
+        background-color: blue;
+        padding: 20px;
+      }
+
+      .inner {
+        border-radius: 20px;
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+      }
+
+      #upper {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        padding: 5%;
+      }
+
+      #lower {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        align-content: center;
+        padding: 5%;
+      }
+
+      .g_green {
+        display: flex;
+        justify-content: center;
+        border-radius: 10%;
+        background-color: green;
+        width: 100%;
+        height: 100%;
+        margin-right: 10%;
+        box-shadow: 3px 3px 3px 3px gray;
+      }
+
+      .g_yellow {
+        display: flex;
+        justify-content: center;
+        border-radius: 10%;
+        background-color: yellow;
+        width: 100%;
+        height: 100%;
+        margin-right: 10%;
+        box-shadow: 3px 3px 3px 3px gray;
+      }
+
+      .g_red {
+        display: flex;
+        justify-content: center;
+        border-radius: 10%;
+        background-color: red;
+        width: 100%;
+        height: 100%;
+        margin-right: 10%;
+        box-shadow: 3px 3px 3px 3px gray;
+      }
+
+      .g_blue {
+        display: flex;
+        justify-content: center;
+        border-radius: 10%;
+        background-color: blue;
+        width: 100%;
+        height: 100%;
+        margin-right: 10%;
+        box-shadow: 3px 3px 3px 3px gray;
+      }
+
+      #yellow_move {
+        display: grid;
+        display: grid;
+        width: 20%;
+        height: 100%;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: 16.5% 16.5% 16.5% 16.5% 16.5% 16.5%;
+      }
+
+      #red_move {
+        display: grid;
+        display: grid;
+        width: 20%;
+        height: 100%;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: 16.5% 16.5% 16.5% 16.5% 16.5% 16.5%;
+      }
+
+      #green_move {
+        display: grid;
+        width: 40%;
+        height: 100%;
+        grid-template-rows: 33% 33% 33%;
+        grid-template-columns: 16.5% 16.5% 16.5% 16.5% 16.5% 16.5%;
+      }
+
+      #blue_move {
+        display: grid;
+        width: 40%;
+        height: 100%;
+        grid-template-rows: 33% 33% 33%;
+        grid-template-columns: 16.5% 16.5% 16.5% 16.5% 16.5% 16.5%;
+      }
+
+      .box {
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+      }
+
+      .box-y {
+        background-color: yellow;
+      }
+
+      .box-g {
+        background-color: green;
+      }
+
+      .box-b {
+        background-color: blue;
+      }
+
+      .box-r {
+        background-color: red;
+      }
+
+      #multicolor {
+        position: relative;
+        width: 20%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white; 
+      }
+
+      .triangle {
+        position: absolute;
+        width: 50%;
+        height: 50%;
+      }
+
+      .green {
+        top: 0;
+        left: 0;
+        background-color: green;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+      }
+
+      .yellow {
+        top: 0;
+        right: 0;
+        background-color: yellow;
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+      }
+
+      .red {
+        bottom: 0;
+        left: 0;
+        background-color: red;
+        clip-path: polygon(0 0, 100% 100%, 0 100%);
+      }
+
+      .blue {
+        bottom: 0;
+        right: 0;
+        background-color: blue;
+        clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      }
+
+      #dice {
+        display: inline-block;
+        position: relative;
+      }
+
+      #die {
+        padding: 50px;
+        background-image: url("src/1.png");
+        background-color: rgba(0, 0, 255, 0);
+        background-size: contain;
+        border: 5px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.4s ease, background-image 0.4s ease;
+      }
+
+      @keyframes rollDice {
+        0% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(90deg);
+        }
+        50% {
+          transform: rotate(180deg);
+        }
+        75% {
+          transform: rotate(270deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      #die.rolling {
+        animation: rollDice 0.6s ease;
+      }
+
+      #die:hover {
+        transform: scale(1.1);
+      }
+
+      #b1,
+      #b2,
+      #b3,
+      #b4 {
+        background-image: linear-gradient(blue, rgb(0, 110, 255));
+        border: 1px solid black;
+        box-shadow: 3px 3px 5px black;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
+        margin: auto;
+      }
+
+      #g1,
+      #g2,
+      #g3,
+      #g4 {
+        background-image: linear-gradient(green, rgb(94, 255, 0));
+        border: 1px solid black;
+        box-shadow: 3px 3px 5px black;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
+        margin: auto;
+        z-index: 1;
+      }
+
+      #y1,
+      #y2,
+      #y3,
+      #y4 {
+        background-image: linear-gradient(yellow, rgb(255, 166, 0));
+        border: 1px solid black;
+        box-shadow: 3px 3px 5px black;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
+        margin: auto;
+        z-index: 1;
+      }
+
+      #r1,
+      #r2,
+      #r3,
+      #r4 {
+        background-image: linear-gradient(red, rgb(255, 191, 172));
+        border: 1px solid black;
+        box-shadow: 3px 3px 5px black;
+        border-radius: 50%;
+        width: 90%;
+        height: 90%;
+        margin: 2px;
+        margin: auto;
+        z-index: 1;
+      }
+      #r1,
+      #b1,
+      #g1,
+      #y1 {
+        z-index: 1;
+      }
+      #r2,
+      #b2,
+      #g2,
+      #y2 {
+        z-index: 2;
+      }
+      #r3,
+      #b3,
+      #g3,
+      #y3 {
+        z-index: 3;
+      }
+      #r4,
+      #b4,
+      #g4,
+      #y4 {
+        z-index: 4;
+      }
+      #Text {
+        font-size: 20px;
+      }
+      .box.star {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .box.star::before {
+        content: "★"; /* Unicode star */
+        font-size: 2.5rem; /* Adjust size */
+        color: black; /* Star color changed to black */
+        display: inline-block;
+        text-align: center;
+      }
+
+
+      #player-count {
+  text-align: center;
+  background-color: #ffe6e6; /* Soft pink background */
+  padding: 10px;
+  border-radius: 12px;
+  width: 220px;
+  position: absolute; /* Use absolute positioning */
+  top: 50%; /* Center vertically */
+  right: 10px; /* Position it 10px from the right */
+  transform: translateY(-50%); /* Adjust vertical positioning to center */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#player-count h3 {
+  font-size: 18px;
+  color: #ff6b81; /* Soft red color */
+  margin-bottom: 8px; /* Reduced space between heading and labels */
+}
+
+label {
+  font-size: 14px;
+  color: #555;
+  display: block;
+  margin: 5px 0; /* Reduced space between labels */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+label:hover {
+  transform: scale(1.1); /* Slightly enlarges the label on hover */
+}
+
+input[type="radio"] {
+  margin-right: 6px; /* Smaller space between radio button and label */
+  accent-color: #ff6b81; /* Matching the radio button color */
+}
+
+input[type="radio"]:checked + label {
+  font-weight: bold;
+  color: #ff6b81; /* Highlighted text when selected */
+}
+
+input[type="radio"]:focus {
+  outline: none;
+  box-shadow: 0 0 4px rgba(255, 107, 129, 0.6); /* Subtle focus effect */
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <div id="board">
+        <div id="row1">
+          <div id="green">
+            <div class="inner">
+              <div id="upper">
+                <div class="g_green" id="g_g1">
+                  <div id="g1" onclick="green.choose(1)"></div>
+                </div>
+                <div class="g_green" id="g_g2">
+                  <div id="g2" onclick="green.choose(2)"></div>
+                </div>
+              </div>
+              <div id="lower">
+                <div class="g_green" id="g_g3">
+                  <div id="g3" onclick="green.choose(3)"></div>
+                </div>
+                <div class="g_green" id="g_g4">
+                  <div id="g4" onclick="green.choose(4)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="yellow_move">
+            <div class="box" id="24"></div>
+            <div class="box" id="25"></div>
+            <div class="box" id="26"></div>
+            <div class="box" id="23"></div>
+            <div class="box box-y" id="yf26"></div>
+            <div class="box box-y" id="27"></div>
+            <div class="box star" id="22"></div>
+            <div class="box box-y" id="yf27"></div>
+            <div class="box" id="28"></div>
+            <div class="box" id="21"></div>
+            <div class="box box-y" id="yf28"></div>
+            <div class="box" id="29"></div>
+            <div class="box" id="20"></div>
+            <div class="box box-y" id="yf29"></div>
+            <div class="box" id="30"></div>
+            <div class="box" id="19"></div>
+            <div class="box box-y" id="yf30"></div>
+            <div class="box" id="31"></div>
+          </div>
+          <div id="yellow">
+            <div class="inner">
+              <div id="upper">
+                <div class="g_yellow" id="g_y1">
+                  <div id="y1" onclick="yellow.choose(1)"></div>
+                </div>
+                <div class="g_yellow" id="g_y2">
+                  <div id="y2" onclick="yellow.choose(2)"></div>
+                </div>
+              </div>
+              <div id="lower">
+                <div class="g_yellow" id="g_y3">
+                  <div id="y3" onclick="yellow.choose(3)"></div>
+                </div>
+                <div class="g_yellow" id="g_y4">
+                  <div id="y4" onclick="yellow.choose(4)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="row2">
+          <div id="green_move">
+            <div class="box" id="13"></div>
+            <div class="box box-g" id="14"></div>
+            <div class="box" id="15"></div>
+            <div class="box" id="16"></div>
+            <div class="box" id="17"></div>
+            <div class="box" id="18"></div>
+            <div class="box" id="12"></div>
+            <div class="box box-g" id="gf13"></div>
+            <div class="box box-g" id="gf14"></div>
+            <div class="box box-g" id="gf15"></div>
+            <div class="box box-g" id="gf16"></div>
+            <div class="box box-g" id="gf17"></div>
+            <div class="box" id="11"></div>
+            <div class="box" id="10"></div>
+            <div class="box star" id="9"></div>
+            <div class="box" id="8"></div>
+            <div class="box" id="7"></div>
+            <div class="box" id="6"></div>
+          </div>
+          <div id="multicolor">
+            <center id="Text">HOME</center>
+            <div class="triangle green"></div>
+            <div class="triangle yellow"></div>
+            <div class="triangle red"></div>
+            <div class="triangle blue"></div>
+          </div>
+          <div id="blue_move">
+            <div class="box" id="32"></div>
+            <div class="box" id="33"></div>
+            <div class="box" id="34"></div>
+            <div class="box star" id="35"></div>
+            <div class="box" id="36"></div>
+            <div class="box" id="37"></div>
+            <div class="box box-b" id="bf43"></div>
+            <div class="box box-b" id="bf42"></div>
+            <div class="box box-b" id="bf41"></div>
+            <div class="box box-b" id="bf40"></div>
+            <div class="box box-b" id="bf39"></div>
+            <div class="box" id="38"></div>
+            <div class="box" id="44"></div>
+            <div class="box" id="43"></div>
+            <div class="box" id="42"></div>
+            <div class="box" id="41"></div>
+            <div class="box box-b" id="40"></div>
+            <div class="box" id="39"></div>
+          </div>
+        </div>
+        <div id="row3">
+          <div id="red">
+            <div class="inner">
+              <div id="upper">
+                <div class="g_red" id="g_r1">
+                  <div id="r1" onclick="red.choose(1)"></div>
+                </div>
+                <div class="g_red" id="g_r2">
+                  <div id="r2" onclick="red.choose(2)"></div>
+                </div>
+              </div>
+              <div id="lower">
+                <div class="g_red" id="g_r3">
+                  <div id="r3" onclick="red.choose(3)"></div>
+                </div>
+                <div class="g_red" id="g_r4">
+                  <div id="r4" onclick="red.choose(4)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="red_move">
+            <div class="box" id="5"></div>
+            <div class="box box-r" id="rf56"></div>
+            <div class="box" id="45"></div>
+            <div class="box" id="4"></div>
+            <div class="box box-r" id="rf55"></div>
+            <div class="box" id="46"></div>
+            <div class="box" id="3"></div>
+            <div class="box box-r" id="rf54"></div>
+            <div class="box" id="47"></div>
+            <div class="box" id="2"></div>
+            <div class="box box-r" id="rf53"></div>
+            <div class="box star" id="48"></div>
+            <div class="box box-r" id="1"></div>
+            <div class="box box-r" id="rf52"></div>
+            <div class="box" id="49"></div>
+            <div class="box" id="52"></div>
+            <div class="box" id="51"></div>
+            <div class="box" id="50"></div>
+          </div>
+          <div id="blue">
+            <div class="inner">
+              <div id="upper">
+                <div class="g_blue" id="g_b1">
+                  <div id="b1" onclick="blue.choose(1)"></div>
+                </div>
+                <div class="g_blue" id="g_b2">
+                  <div id="b2" onclick="blue.choose(2)"></div>
+                </div>
+              </div>
+              <div id="lower">
+                <div class="g_blue" id="g_b3">
+                  <div id="b3" onclick="blue.choose(3)"></div>
+                </div>
+                <div class="g_blue" id="g_b4">
+                  <div id="b4" onclick="blue.choose(4)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="dice">
+        <button id="die" onclick="roll.roll();"></button>
+        <div id="message"></div>
+      </div>
+      <div id="out"></div>
+
+      <div id="player-count">
+        <h3>Select Number of Players</h3>
+        <label
+          ><input
+            type="radio"
+            id="op1"
+            name="numPlayers"
+            value="2"
+            onchange="changeNumOfPlayers(2)"
+          />
+          Two Players</label
+        >
+        <label
+          ><input
+            type="radio"
+            id="op2"
+            name="numPlayers"
+            value="4"
+            checked
+            onchange="changeNumOfPlayers(4)"
+          />
+          Four Players</label
+        >
+      </div>
+    </div>
+    <script src="Task01 (2).js"></script>
+  </body>
+</html>
